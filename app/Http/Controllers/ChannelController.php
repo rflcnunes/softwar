@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiResponse;
+use App\Repositories\Contracts\ChannelRepositoryInterface;
+use App\Services\GetRankingService;
 use Illuminate\Http\Request;
 
 class ChannelController extends Controller
 {
+    private $channelRepository;
+
+    public function __construct(ChannelRepositoryInterface $channelRepository, GetRankingService $getRankingService)
+    {
+        $this->channelRepository = $channelRepository;
+        $this->getRankingService = $getRankingService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,16 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        //
+        $response = $this->channelRepository->getAll();
+
+        return new ApiResponse(true, 'List of Channels', $response, 200);
+    }
+
+    public function getRankingByMinutesWatched()
+    {
+        $response = $this->getRankingService->getRanking();
+
+        return new ApiResponse(true, 'Ranking Channels by minutes watched', $response, 200);
     }
 
     /**
