@@ -19,4 +19,9 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->user->all();
     }
+
+    public function getAllWithPivot()
+    {
+        return $this->user->with('channels')->get();
+    }
 }
