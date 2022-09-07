@@ -41,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class, 'channel_user')->withPivot('minutes_watched', 'date');
+    }
 }
