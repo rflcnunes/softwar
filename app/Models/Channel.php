@@ -11,6 +11,6 @@ class Channel extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'channel_user');
+        return $this->belongsToMany(User::class, 'channel_user')->withPivot('minutes_watched', 'date');
     }
 }
