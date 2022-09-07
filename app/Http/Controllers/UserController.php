@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Repositories\Contracts\UserRepositoryInterface;
 
 class UserController extends Controller
 {
+
+    private $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return $this->userRepository->getAll();
     }
 
     /**
