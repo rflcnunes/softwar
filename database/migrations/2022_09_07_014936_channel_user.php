@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('channel_id')->constrained();
             $table->float('minutes_watched')->default(0);
-            $table->dateTime('date');
+            $table->dateTime('date')->default(now());
             $table->timestamps();
         });
     }
