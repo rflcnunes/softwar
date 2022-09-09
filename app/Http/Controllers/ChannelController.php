@@ -24,7 +24,7 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        $response = $this->channelRepository->getAll();
+        $response = $this->channelRepository->getAllWithPivot();
 
         return new ApiResponse(true, 'List of Channels', $response, 200);
     }
