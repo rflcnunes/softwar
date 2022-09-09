@@ -18,18 +18,36 @@ class GetRankingService
 
     public function getRanking()
     {
-        $channels = $this->channelRepository->getAllWithPivot();
-
         $ranking = [];
 
-        foreach ($channels as $channel) {
+        $response = $this->channelRepository->getAllWithPivot();
 
-            $ranking[$channel->name] = $channel->users->sum('pivot.minutes_watched');
+       foreach ($response as $channel) {
+        $userWatched = $channel->users;
 
-        }
+        $ranking[] = $payload = [
+            'channel' => $channel->name,
+            '01' => [
+                'user' => $userWatched[0]->name,
+                'minutes_watched' => $userWatched[0]->pivot->minutes_watched,
+            ],
+            '02' => [
+                'user' => $userWatched[1]->name,
+                'minutes_watched' => $userWatched[1]->pivot->minutes_watched,
+            ],
+            '03' => [
+                'user' => $userWatched[2]->name,
+                'minutes_watched' => $userWatched[2]->pivot->minutes_watched,
+            ],
+            'minutes_watched_in_channel' => $channel->users->sum('pivot.minutes_watched'),
+        ];
+       }
+        
 
-        arsort($ranking);
-
-        return $ranking;
+        return [
+            'GetRankingService' => [
+                'data' => $ranking,
+            ],
+        ];
     }
 }
