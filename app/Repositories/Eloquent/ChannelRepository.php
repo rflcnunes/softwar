@@ -21,7 +21,9 @@ class ChannelRepository implements ChannelRepositoryInterface
 
     public function getAllWithPivot()
     {
-        return $this->channel->with('users')->get();
+        return $this->channel->with(['users' => function ($query) {
+            $query->orderBy('minutes_watched', 'desc');
+        }])->get();
     }
 
     public function getUsers($id)
